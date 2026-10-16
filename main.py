@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 sns.set_theme(style="darkgrid")
 
 SPOTIFY_GREEN = "#680E12"
-SPOTIFY_DARK = "#120F0F"
-SPOTIFY_LIGHT = "#457F98"
+SPOTIFY_DARK = "#191414"
+SPOTIFY_LIGHT = "#B3B3B3"
 
 df = pd.read_csv("dataset/spotify_songs.csv")
 
@@ -102,7 +102,12 @@ correlation = df.select_dtypes(include="number").corr()["track_popularity"]
 print(correlation.sort_values(ascending=False))
 
 # Danceability vs Popularity
-plt.scatter(df["danceability"], df["track_popularity"], alpha=0.3)
+plt.scatter(
+    df["danceability"],
+    df["track_popularity"],
+    color=SPOTIFY_GREEN,
+    alpha=0.3
+)
 
 plt.xlabel("Danceability")
 plt.ylabel("Track Popularity")
@@ -115,7 +120,12 @@ plt.figure(figsize=(12, 8))
 
 correlation_matrix = df.select_dtypes(include="number").corr()
 
-sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f")
+sns.heatmap(
+    correlation_matrix,
+    annot=True,
+    cmap="Greens",
+    fmt=".2f"
+)
 
 plt.title("Correlation Heatmap of Spotify Features")
 plt.show()
@@ -129,7 +139,11 @@ top_10 = (
 
 plt.figure(figsize=(10, 6))
 
-plt.bar(top_10["track_name"], top_10["track_popularity"])
+plt.bar(
+    top_10["track_name"],
+    top_10["track_popularity"],
+    color=SPOTIFY_GREEN
+)
 
 plt.xlabel("Song")
 plt.ylabel("Popularity")
