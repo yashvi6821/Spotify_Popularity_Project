@@ -2,6 +2,12 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+sns.set_theme(style="darkgrid")
+
+SPOTIFY_GREEN = "#680E12"
+SPOTIFY_DARK = "#120F0F"
+SPOTIFY_LIGHT = "#457F98"
+
 df = pd.read_csv("dataset/spotify_songs.csv")
 
 print("First 5 Rows: ")
@@ -40,9 +46,24 @@ print("\nPopularity Skewness:", round(df["track_popularity"].skew(), 3))
 print("Songs with popularity = 0:", (df["track_popularity"] == 0).sum())
 
 plt.figure(figsize=(10, 6))
-sns.histplot(df["track_popularity"], bins=30, kde=True)
-plt.axvline(df["track_popularity"].mean(), color="red", linestyle="--", label="Mean")
-plt.axvline(df["track_popularity"].median(), color="green", linestyle="--", label="Median")
+sns.histplot(
+    df["track_popularity"],
+    bins=30,
+    kde=True,
+    color=SPOTIFY_GREEN
+)
+plt.axvline(
+    df["track_popularity"].mean(),
+    color="#FF6B6B",
+    linestyle="--",
+    label="Mean"
+)
+plt.axvline(
+    df["track_popularity"].median(),
+    color="#FFD166",
+    linestyle="--",
+    label="Median"
+)
 plt.xlabel("Track Popularity")
 plt.ylabel("Number of Songs")
 plt.title("Distribution of Track Popularity")
@@ -50,7 +71,10 @@ plt.legend()
 plt.show()
 
 plt.figure(figsize=(8, 4))
-sns.boxplot(x=df["track_popularity"])
+sns.boxplot(
+    x=df["track_popularity"],
+    color=SPOTIFY_GREEN
+)
 plt.title("Boxplot of Track Popularity")
 plt.show()
 
