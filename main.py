@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 sns.set_theme(style="darkgrid")
 
-SPOTIFY_GREEN = "#680E12"
+SPOTIFY_GREEN = "#1DB954"
 SPOTIFY_DARK = "#191414"
 SPOTIFY_LIGHT = "#B3B3B3"
 
