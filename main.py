@@ -301,3 +301,24 @@ plt.title("Actual vs Predicted Song Popularity")
 plt.legend()
 plt.tight_layout()
 plt.show()
+
+# Tuned Random Forest Experiment
+tuned_forest = RandomForestRegressor(
+    n_estimators=150,
+    max_depth=20,
+    min_samples_leaf=2,
+    random_state=42,
+    n_jobs=-1
+)
+
+tuned_forest.fit(X_train, y_train)
+tuned_predictions = tuned_forest.predict(X_test)
+
+tuned_mae = mean_absolute_error(y_test, tuned_predictions)
+tuned_rmse = np.sqrt(mean_squared_error(y_test, tuned_predictions))
+tuned_r2 = r2_score(y_test, tuned_predictions)
+
+print("\n--- Tuned Random Forest Results ---")
+print(f"MAE: {tuned_mae:.2f}")
+print(f"RMSE: {tuned_rmse:.2f}")
+print(f"R2 Score: {tuned_r2:.3f}")
