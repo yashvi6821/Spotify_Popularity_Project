@@ -275,3 +275,29 @@ plt.ylabel("Audio Feature")
 plt.title("Feature Importance for Spotify Popularity Prediction")
 plt.tight_layout()
 plt.show()
+
+# Actual vs Predicted Popularity
+
+plt.figure(figsize=(8, 6))
+
+plt.scatter(
+    y_test,
+    rf_predictions,
+    alpha=0.4,
+    color=SPOTIFY_GREEN
+)
+
+plt.plot(
+    [0, 100],
+    [0, 100],
+    linestyle="--",
+    color="red",
+    label="Perfect Prediction"
+)
+
+plt.xlabel("Actual Popularity")
+plt.ylabel("Predicted Popularity")
+plt.title("Actual vs Predicted Song Popularity")
+plt.legend()
+plt.tight_layout()
+plt.show()
