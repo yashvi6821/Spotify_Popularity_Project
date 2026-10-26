@@ -1,6 +1,7 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+plt.ioff()
 
 sns.set_theme(style="darkgrid")
 import matplotlib
