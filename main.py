@@ -3,6 +3,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 sns.set_theme(style="darkgrid")
+import matplotlib
+matplotlib.rcParams["figure.max_open_warning"] = 0
 
 SPOTIFY_GREEN = "#1DB954"
 SPOTIFY_DARK = "#191414"
