@@ -152,7 +152,6 @@ plt.title("Top 10 Most Popular Songs")
 plt.xticks(rotation=45, ha="right")
 plt.tight_layout()
 
-
 plt.show()
 
 # Inference / Findings
@@ -169,3 +168,110 @@ print(f"4. Strongest positive correlation: {corr.idxmax()} ({corr.max():.3f})")
 print(f"5. Strongest negative correlation: {corr.idxmin()} ({corr.min():.3f})")
 print(f"6. Danceability correlation with popularity: {corr['danceability']:.3f}")
 
+# ==========================================
+# MACHINE LEARNING: POPULARITY PREDICTION
+# ==========================================
+
+import numpy as np
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+# Select audio features for prediction
+features = [
+    "danceability",
+    "energy",
+    "key",
+    "loudness",
+    "mode",
+    "speechiness",
+    "acousticness",
+    "instrumentalness",
+    "liveness",
+    "valence",
+    "tempo",
+    "duration_ms"
+]
+
+target = "track_popularity"
+
+# Prepare input and output data
+X = df[features]
+y = df[target]
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+print("\n========== MODEL TRAINING ==========")
+
+print("Training samples:", len(X_train))
+print("Testing samples:", len(X_test))
+
+# Model 1: Linear Regression
+linear_model = LinearRegression()
+linear_model.fit(X_train, y_train)
+
+linear_predictions = linear_model.predict(X_test)
+
+linear_mae = mean_absolute_error(y_test, linear_predictions)
+linear_rmse = np.sqrt(mean_squared_error(y_test, linear_predictions))
+linear_r2 = r2_score(y_test, linear_predictions)
+
+print("\n--- Linear Regression Results ---")
+print(f"MAE:  {linear_mae:.2f}")
+print(f"RMSE: {linear_rmse:.2f}")
+print(f"R2 Score: {linear_r2:.3f}")
+
+# Model 2: Random Forest Regression
+random_forest = RandomForestRegressor(
+    n_estimators=100,
+    random_state=42,
+    n_jobs=-1
+)
+
+random_forest.fit(X_train, y_train)
+
+rf_predictions = random_forest.predict(X_test)
+
+rf_mae = mean_absolute_error(y_test, rf_predictions)
+rf_rmse = np.sqrt(mean_squared_error(y_test, rf_predictions))
+rf_r2 = r2_score(y_test, rf_predictions)
+
+print("\n--- Random Forest Results ---")
+print(f"MAE:  {rf_mae:.2f}")
+print(f"RMSE: {rf_rmse:.2f}")
+print(f"R2 Score: {rf_r2:.3f}")
+
+# Compare both models
+print("\n========== MODEL COMPARISON ==========")
+
+if rf_r2 > linear_r2:
+    print("Random Forest has a higher R2 score.")
+else:
+    print("Linear Regression has a higher or equal R2 score.")
+
+# Feature Importance
+importance = pd.Series(
+    random_forest.feature_importances_,
+    index=features
+).sort_values(ascending=False)
+
+print("\n========== FEATURE IMPORTANCE ==========")
+print(importance)
+
+plt.figure(figsize=(10, 6))
+
+importance.sort_values().plot(
+    kind="barh",
+    color=SPOTIFY_GREEN
+)
+
+plt.xlabel("Importance")
+plt.ylabel("Audio Feature")
+plt.title("Feature Importance for Spotify Popularity Prediction")
+plt.tight_layout()
+plt.show()
